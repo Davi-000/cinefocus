@@ -1,10 +1,4 @@
 
-/* ============================================================
-   CINEFOCUS — style.css
-   Arquivo principal de estilos do aplicativo CineFocus.
-   Define o tema visual, componentes e layout responsivo.
-   ============================================================ */
-
 /* ---- Reset & Custom Properties ----
      Normaliza espaçamentos e define variáveis de tema.
 */
@@ -57,6 +51,16 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* [Melhoria] Trava de acessibilidade física global para reduzir animações se requisitado pelo sistema */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms!important;
+    animation-iteration-count: 1!important;
+    transition-duration: 0.01ms!important;
+    scroll-behavior: auto!important;
+  }
+}
+
 /* ---- Scrollbar ---- */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -105,11 +109,19 @@ body {
   letter-spacing: -0.02em;
 }
 
+/* [Melhoria] Permite rolagem horizontal suave no menu caso os links transbordem em telas médias */
 .navbar-nav {
   display: flex;
   align-items: center;
   gap: 4px;
   flex: 1;
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -webkit-overflow-scrolling: touch;
+}
+
+.navbar-nav::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 .nav-link {
@@ -205,7 +217,7 @@ body {
 
 
 /* ============================================================
-   MAIN LAYOUT
+   MAIN LAYOUT & CONTAINERS
    ============================================================ */
 /* Container principal em grid que posiciona o conteúdo
    principal e a sidebar lado a lado. */
@@ -216,16 +228,17 @@ body {
   min-height: calc(100vh - var(--navbar-h));
 }
 
+/* [Melhoria] Definindo a área de conteúdo como um Container de consulta para desacoplar da largura global da tela */
 .content-area {
   padding: 36px 32px 48px;
   min-width: 0;
+  container-type: inline-size;
+  container-name: content;
 }
 
 /* ============================================================
-   HERO
+   HERO (Otimizado com Tipografia Fluida)
    ============================================================ */
-/* Estilização da seção de destaque com título, descrição
-   e campo de busca principal. */
 .hero {
   margin-bottom: 36px;
 }
@@ -234,9 +247,10 @@ body {
   margin-bottom: 24px;
 }
 
+/* [Melhoria] Usando clamp com interpolação linear dinâmica e contínua */
 .hero-title {
   font-family: 'DM Serif Display', serif;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-size: clamp(1.8rem, 4vw + 0.5rem, 2.8rem);
   font-weight: 400;
   color: var(--text-primary);
   line-height: 1.15;
@@ -249,8 +263,9 @@ body {
   color: var(--purple);
 }
 
+/* [Melhoria] Subtítulo se adapta sutilmente ao tamanho do viewport */
 .hero-subtitle {
-  font-size: 1rem;
+  font-size: clamp(0.9rem, 1.2vw + 0.4rem, 1.1rem);
   color: var(--text-secondary);
   font-weight: 400;
   line-height: 1.5;
@@ -369,7 +384,7 @@ body {
 
 .view-title {
   font-family: 'DM Serif Display', serif;
-  font-size: 1.8rem;
+  font-size: clamp(1.4rem, 2vw + 0.8rem, 2rem);
   font-weight: 400;
   letter-spacing: -0.03em;
 }
@@ -425,8 +440,10 @@ body {
 
 
 /* ============================================================
-   MOVIES GRID
+   MOVIES GRID (Responsividade Fluida Inteligente)
    ============================================================ */
+/* [Melhoria] O layout da grade de filmes passa a se adaptar dinamicamente com base
+   no tamanho do seu contêiner direto (.content-area), evitando transbordamentos. */
 .movies-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -470,7 +487,7 @@ body {
   transition: transform 0.4s var(--ease-out-quart);
 }
 
-.movie-card:hover .card-poster { transform: scale(1.06); }
+.movie-card:hover.card-poster { transform: scale(1.06); }
 
 .card-poster-placeholder {
   width: 100%;
@@ -509,7 +526,7 @@ body {
   box-shadow: 0 2px 8px rgba(108,63,197,0.4);
 }
 
-.card-ribbon.watched  { background: #059669; }
+.card-ribbon.watched   { background: #059669; }
 .card-ribbon.favorite { background: #DC2626; }
 .card-ribbon.disliked { background: #6B7280; }
 
@@ -543,7 +560,7 @@ body {
   transition: opacity 0.22s;
 }
 
-.movie-card:hover .card-overlay { opacity: 1; }
+.movie-card:hover.card-overlay { opacity: 1; }
 
 .overlay-actions {
   display: flex;
@@ -616,7 +633,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.card-meta .dot { margin: 0 4px; opacity: 0.5; }
+.card-meta.dot { margin: 0 4px; opacity: 0.5; }
 
 
 /* ============================================================
@@ -691,6 +708,8 @@ body {
 /* ============================================================
    SIDEBAR
    ============================================================ */
+/* [Melhoria] A sidebar agora também atua como um container próprio de estilo.
+   Isso permite que os elementos internos reajam com elegância ao espaço real disponível. */
 .sidebar {
   width: var(--sidebar-w);
   background: var(--bg-card);
@@ -703,6 +722,8 @@ body {
   top: var(--navbar-h);
   height: calc(100vh - var(--navbar-h));
   overflow-y: auto;
+  container-type: inline-size;
+  container-name: sidebar;
 }
 
 .sidebar-header {
@@ -999,25 +1020,86 @@ body {
 
 
 /* ============================================================
-   RESPONSIVE
+   LOGICA DE CONTAINER QUERIES (Interfaces Inteligentes)
    ============================================================ */
-@media (max-width: 900px) {
-  .main-layout {
+
+/* Se o espaço horizontal útil da área de conteúdo cair para menos de 480px:
+   - A barra de pesquisa e botão se empilham perfeitamente
+   - O cabeçalho de visualização se reorganiza em bloco */
+@container content (max-width: 480px) {
+ .search-bar {
+    flex-wrap: wrap;
+    padding: 10px 12px;
+    border-radius: var(--radius-lg);
+  }
+  #search-input {
+    min-width: 140px;
+  }
+ .search-btn {
+    width: 100%;
+    text-align: center;
+  }
+ .view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+ .btn-outline {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Se a área de exibição principal ficar muito estreita (< 500px),
+   ajustamos a grade de filmes de forma suave */
+@container content (max-width: 500px) {
+ .movies-grid,.skeleton-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Quando o layout muda e a sidebar vai para baixo (tornando-se horizontal de 100%),
+   os elementos internos aproveitam esse espaço largo para se reorganizarem em grade! */
+@container sidebar (min-width: 500px) {
+ .sidebar-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 10px;
+  }
+ .sidebar-stats {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Se o espaço disponível na sidebar for severamente espremido (< 240px),
+   empilhamos os números de dados analíticos para evitar quebras visuais de texto */
+@container sidebar (max-width: 240px) {
+ .sidebar-stats {
     grid-template-columns: 1fr;
   }
-  .sidebar {
+}
+
+
+/* ============================================================
+   RESPONSIVE (Media Queries tradicionais de Macro-estrutura)
+   ============================================================ */
+@media (max-width: 900px) {
+ .main-layout {
+    grid-template-columns: 1fr;
+  }
+ .sidebar {
     position: static;
     height: auto;
     width: 100%;
     border-left: none;
     border-top: 1px solid var(--border);
+    padding: 24px 16px;
   }
 }
 
 @media (max-width: 640px) {
-  .content-area { padding: 20px 16px 32px; }
-  .navbar { padding: 0 16px; gap: 12px; }
-  .nav-link span { display: none; }
-  .hero-title { font-size: 1.5rem; }
-  .movies-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+ .content-area { padding: 20px 16px 32px; }
+ .navbar { padding: 0 16px; gap: 12px; }
+ .nav-link span { display: none; } /* Mantém apenas os ícones visíveis no celular */
 }
