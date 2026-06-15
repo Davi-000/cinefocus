@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CineFocus</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- Página principal do CineFocus.
+       O layout é dividido em três áreas principais:
+       1. Navbar de navegação
+       2. Conteúdo principal com busca e grade de filmes
+       3. Sidebar com lista "Para Assistir"
+  -->
+
+  <!-- ============================
+       NAVBAR
+  ============================= -->
+  <header class="navbar">
+    <div class="navbar-brand">
+      <svg class="brand-icon" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="14" cy="14" r="13" stroke="currentColor" stroke-width="2"/>
+        <circle cx="14" cy="14" r="6" fill="currentColor" opacity="0.2"/>
+        <circle cx="14" cy="14" r="2.5" fill="currentColor"/>
+        <line x1="14" y1="1" x2="14" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="14" y1="22" x2="14" y2="27" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="1" y1="14" x2="6" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <line x1="22" y1="14" x2="27" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-name">CineFocus</span>
+    </div>
+
+    <nav class="navbar-nav">
+      <a href="#" class="nav-link active" data-view="explore">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="1.5"/><path d="M15 15l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Explorar
+      </a>
+      <a href="#" class="nav-link" data-view="towatch">
+        <svg viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l2.5 2.5L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Minha Lista
+      </a>
+      <a href="#" class="nav-link" data-view="watched">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6S1.5 10 1.5 10z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        Assistidos
+      </a>
+      <a href="#" class="nav-link" data-view="favorites">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 16.5s-7-4.5-7-9a4 4 0 018 0 4 4 0 018 0c0 4.5-7 9-7 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Favoritos
+      </a>
+      <a href="#" class="nav-link" data-view="disliked">
+        <svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M7 13s1-3 3-3 3 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12.5" cy="8.5" r="1" fill="currentColor"/></svg>
+        Não Gostei
+      </a>
+    </nav>
+
+    <div class="navbar-actions">
+      <button class="icon-btn" title="Favoritos" data-view="favorites" id="nav-bookmark">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v13l-6-3-6 3V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span class="badge" id="bookmark-count">0</span>
+      </button>
+      <button class="icon-btn avatar-btn" title="Perfil">
+        <span>U</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================
+       MAIN LAYOUT
+  ============================= -->
+  <!-- Conteúdo principal dividido em duas colunas:
+       a) área de busca e resultados
+       b) sidebar com lista de filmes para assistir
+  -->
+  <main class="main-layout">
+
+    <!-- PRIMARY CONTENT -->
+    <section class="content-area">
+
+      <!-- Hero -->
+      <div class="hero" id="hero-section">
+        <div class="hero-text">
+          <h1 class="hero-title">
+            <em>CineFocus:</em> Busca de Filmes
+          </h1>
+          <p class="hero-subtitle">Descubra novos títulos e organize sua jornada cinematográfica</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-wrapper">
+          <div class="search-bar" id="search-bar">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none">
+              <circle cx="10.5" cy="10.5" r="7" stroke="currentColor" stroke-width="2"/>
+              <path d="M16 16l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Pesquise um filme..."
+              autocomplete="off"
+            />
+            <button class="search-btn" id="search-btn">Buscar</button>
+          </div>
+          <div class="search-tags">
+            <span class="tag-label">Populares:</span>
+            <button class="tag" data-query="Inception">Inception</button>
+            <button class="tag" data-query="Interstellar">Interstellar</button>
+            <button class="tag" data-query="Parasite">Parasita</button>
+            <button class="tag" data-query="Dune">Duna</button>
+            <button class="tag" data-query="The Batman">The Batman</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- View Title (shown for list views) -->
+      <!-- Cabeçalho dinâmico exibido nas abas de listas para mostrar o nome da visualização e a contagem de filmes. -->
+      <div class="view-header" id="view-header" style="display:none;">
+        <div class="view-header-left">
+          <h2 class="view-title" id="view-title">Minha Lista</h2>
+          <span class="view-count" id="view-count">0 filmes</span>
+        </div>
+        <button class="btn-outline" id="back-to-explore">← Explorar</button>
+      </div>
+
+      <!-- Status Message -->
+      <div class="status-bar" id="status-bar"></div>
+
+      <!-- Movie Grid -->
+      <div class="movies-grid" id="movies-grid">
+        <!-- Cards are injected by JS -->
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="empty-state" style="display:none;">
+        <div class="empty-icon">🎬</div>
+        <h3 id="empty-title">Sua lista está vazia</h3>
+        <p id="empty-msg">Use a busca acima para encontrar filmes e adicioná-los aqui.</p>
+      </div>
+
+      <!-- Loading Skeleton -->
+      <div class="skeleton-grid" id="skeleton-grid" style="display:none;">
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+        <div class="skeleton-card" aria-hidden="true"><div class="sk-poster"></div><div class="sk-line"></div><div class="sk-line short"></div></div>
+      </div>
+
+    </section>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title-row">
+          <svg viewBox="0 0 20 20" fill="none" width="18" height="18"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l2.5 2.5L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <h3 class="sidebar-title">Para Assistir</h3>
+        </div>
+        <span class="sidebar-badge" id="sidebar-count">0 itens</span>
+      </div>
+
+      <ul class="sidebar-list" id="sidebar-list">
+        <!-- Items injected by JS -->
+      </ul>
+
+      <div class="sidebar-empty" id="sidebar-empty">
+        <p>Nenhum filme na lista ainda.</p>
+        <p>Busque e adicione filmes!</p>
+      </div>
+
+      <div class="sidebar-footer">
+        <button class="btn-clear" id="clear-towatch">
+          <svg viewBox="0 0 20 20" fill="none" width="14" height="14"><path d="M4 6h12M8 6V4h4v2M6 6l1 10h6l1-10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Limpar Lista
+        </button>
+      </div>
+
+      <!-- Mini stats -->
+      <div class="sidebar-stats">
+        <div class="stat-item">
+          <span class="stat-num" id="stat-watched">0</span>
+          <span class="stat-label">Assistidos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="stat-favorites">0</span>
+          <span class="stat-label">Favoritos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-num" id="stat-disliked">0</span>
+          <span class="stat-label">Não Gostei</span>
+        </div>
+      </div>
+    </aside>
+
+  </main>
+
+  <!-- ============================
+       ACTION DROPDOWN (portal)
+  ============================= -->
+  <!-- Dropdown contextual que permite adicionar filmes às listas ou marcar o status de um filme. -->
+  <div class="action-dropdown" id="action-dropdown" style="display:none;">
+    <div class="dropdown-arrow"></div>
+    <ul>
+      <li><button data-action="towatch">
+        <svg viewBox="0 0 20 20" fill="none" width="15" height="15"><rect x="3" y="3" width="14" height="14" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 10l2.5 2.5L13 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Adicionar a Para Assistir
+      </button></li>
+      <li><button data-action="watched">
+        <svg viewBox="0 0 20 20" fill="none" width="15" height="15"><path d="M1.5 10s3-6 8.5-6 8.5 6 8.5 6-3 6-8.5 6S1.5 10 1.5 10z" stroke="currentColor" stroke-width="1.5"/><circle cx="10" cy="10" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+        Marcar como Assistido
+      </button></li>
+      <li><button data-action="favorites">
+        <svg viewBox="0 0 20 20" fill="none" width="15" height="15"><path d="M10 16.5s-7-4.5-7-9a4 4 0 018 0 4 4 0 018 0c0 4.5-7 9-7 9z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        Adicionar a Favoritos
+      </button></li>
+      <li><button data-action="disliked" class="dislike-btn">
+        <svg viewBox="0 0 20 20" fill="none" width="15" height="15"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M7 13s1-3 3-3 3 3 3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="7.5" cy="8.5" r="1" fill="currentColor"/><circle cx="12.5" cy="8.5" r="1" fill="currentColor"/></svg>
+        Não Gostei
+      </button></li>
+    </ul>
+  </div>
+
+  <!-- ============================
+       TOAST NOTIFICATION
+  ============================= -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
