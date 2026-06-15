@@ -109,6 +109,12 @@ body {
   letter-spacing: -0.02em;
 }
 
+.brand-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
 /* [Melhoria] Permite rolagem horizontal suave no menu caso os links transbordem em telas médias */
 .navbar-nav {
   display: flex;

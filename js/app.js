@@ -61,13 +61,13 @@ const toast         = document.getElementById('toast');
 const navLinks      = document.querySelectorAll('.nav-link, #nav-bookmark');
 const tags          = document.querySelectorAll('.tag');
 
-// ── 🌐  CURRENT VIEW ─────────────────────────────────────────
+// ──   CURRENT VIEW ─────────────────────────────────────────
 // Guarda qual aba está ativa, qual filme está em foco e o último resultado de busca.
 let currentView       = 'explore';  // explore | towatch | watched | favorites | disliked
 let currentMovieCtx   = null;       // filme atualmente selecionado para o dropdown
 let lastSearchResults = [];         // últimos resultados da busca
 
-// ── 🔍  API / BUSCA ──────────────────────────────────────────
+// ──   API / BUSCA ──────────────────────────────────────────
 
 /**
  * Busca filmes na API TMDB.
@@ -129,7 +129,7 @@ function normalizeMovie(m) {
   };
 }
 
-// ── 🖼️  RENDERIZAÇÃO ─────────────────────────────────────────
+// ──   RENDERIZAÇÃO ─────────────────────────────────────────
 
 /**
  * Renderiza um array de filmes na grade principal.
@@ -271,7 +271,7 @@ function buildContextActions(movie, context) {
   `;
 }
 
-// ── 📋  SIDEBAR "PARA ASSISTIR" ───────────────────────────────
+// ──   SIDEBAR "PARA ASSISTIR" ───────────────────────────────
 
 /**
  * Renderiza a barra lateral com a lista "Para Assistir".
@@ -326,7 +326,7 @@ function renderSidebar() {
   }
 }
 
-// ── 🗃️  GERENCIAMENTO DE LISTAS ──────────────────────────────
+// ──   GERENCIAMENTO DE LISTAS ──────────────────────────────
 
 function isInList(id, listKey) {
   return state[listKey].some(m => m.id === id);
@@ -376,7 +376,7 @@ function refreshGridRibbons() {
   });
 }
 
-// ── 🎛️  ACTION DROPDOWN ──────────────────────────────────────
+// ──   ACTION DROPDOWN ──────────────────────────────────────
 
 /**
  * Exibe o dropdown de ações para o filme selecionado.
@@ -436,7 +436,7 @@ document.addEventListener('click', (e) => {
   }
 });
 
-// ── 🧭  NAVEGAÇÃO / VIEWS ────────────────────────────────────
+// ──   NAVEGAÇÃO / VIEWS ────────────────────────────────────
 
 const VIEW_CONFIG = {
   explore:   { title: '',            emptyTitle: 'Nenhum resultado',    emptyMsg: 'Tente buscar outro filme.' },
@@ -491,7 +491,7 @@ function renderCurrentView() {
   switchView(currentView);
 }
 
-// ── 🔍  BUSCA ─────────────────────────────────────────────────
+// ──  BUSCA ─────────────────────────────────────────────────
 
 /**
  * Realiza a busca por filmes e atualiza a interface com os resultados.
@@ -547,7 +547,7 @@ async function showLoadingAndFetch() {
   }
 }
 
-// ── 🎉  EVENTOS ───────────────────────────────────────────────
+// ──   EVENTOS ───────────────────────────────────────────────
 
 // Botão Buscar
 searchBtn.addEventListener('click', () => doSearch(searchInput.value));
@@ -592,7 +592,7 @@ clearTowatch.addEventListener('click', () => {
   }
 });
 
-// ── 🍞  TOAST ─────────────────────────────────────────────────
+// ──   TOAST ─────────────────────────────────────────────────
 let toastTimer = null;
 
 /**
@@ -605,7 +605,7 @@ function showToast(msg, type = 'success') {
   toastTimer = setTimeout(() => { toast.className = 'toast'; }, 3200);
 }
 
-// ── 🔢  HELPERS ───────────────────────────────────────────────
+// ──  HELPERS ───────────────────────────────────────────────
 
 function setStatus(msg, isSearching = false) {
   statusBar.textContent = msg;
@@ -643,7 +643,7 @@ function escHtml(str) {
     .replace(/"/g, '&quot;');
 }
 
-// ── 🚀  INICIALIZAÇÃO ─────────────────────────────────────────
+// ──   INICIALIZAÇÃO ─────────────────────────────────────────
 (function init() {
   renderSidebar();
   showLoadingAndFetch();
