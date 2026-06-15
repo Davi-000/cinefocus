@@ -1,7 +1,7 @@
 
 // ── ⚙️  CONFIGURAÇÃO DA API ──────────────────────────────────
 const API_KEY = null;
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://cinefocus.onrender.com/api';
 const IMG_BASE = 'https://image.tmdb.org/t/p/w500';
 const USE_MOCK = false;
 // Mapa de gêneros TMDB → Português
