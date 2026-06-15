@@ -23,11 +23,7 @@ function loadState() {
   } catch (_) {}
   // Estado inicial: lista "Para Assistir" com exemplos
   return {
-    towatch:   [
-      { id: 1001, title: 'Interstellar',  year: 2014, genres: ['Sci-Fi', 'Aventura'], poster: null, rating: 8.6 },
-      { id: 1002, title: 'Parasita',      year: 2019, genres: ['Thriller', 'Drama'],  poster: null, rating: 8.5 },
-      { id: 1003, title: 'Duna',          year: 2021, genres: ['Sci-Fi', 'Aventura'], poster: null, rating: 8.0 },
-    ],
+    towatch:   [],
     watched:   [],
     favorites: [],
     disliked:  [],
